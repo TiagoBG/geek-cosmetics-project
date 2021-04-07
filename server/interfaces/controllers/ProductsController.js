@@ -1,15 +1,15 @@
 'use strict';
 
 const Boom = require('@hapi/boom');
-const CreateOrder = require('../../application/use_cases/CreateOrder');
-/* const ListOrders = require('../../application/use_cases/ListUsers');
+/* const CreateProduct = require('../../application/use_cases/CreateOrder');
+const ListOrders = require('../../application/use_cases/ListUsers');
 const GetOrder = require('../../application/use_cases/GetUser');
 const DeleteOrder = require('../../application/use_cases/DeleteUser');
 const UpdateOrder  = require('../../application/use_cases/UpdateUser'); */
 
 module.exports = {
 
-  async createOrder(request, h) {
+  async createProduct(request, h) {
 
     // Context
     const serviceLocator = request.server.app.serviceLocator;
@@ -19,7 +19,7 @@ module.exports = {
 
     try {
       // Treatment
-      const order = await CreateOrder(order_date, order_products, serviceLocator);
+      const order = await CreateProduct(order_date, order_products, serviceLocator);
 
       // Output
       return serviceLocator.orderSerializer.serialize(order);

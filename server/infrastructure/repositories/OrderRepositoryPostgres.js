@@ -4,12 +4,12 @@ const sequelize = require('../orm/sequelize/sequelize');
 const Order = require('../../domain/Orders');
 const OrderRepository = require('../../domain/OrdersRepository');
  
-module.exports = class extends UserRepository {
+module.exports = class extends OrderRepository {
 
   constructor() {
     super();
     this.db = sequelize;
-    this.model = this.db.model('auth_users');
+    this.model = this.db.model('orders');
   }
 
   async persist(orderEntity) {

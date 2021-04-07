@@ -12,13 +12,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/boom": "^9.1.2",
+    "@hapi/good": "^9.0.1",
+    "@hapi/good-console": "^9.0.1",
+    "@hapi/good-squeeze": "^6.0.0",
     "@hapi/hapi": "^20.1.2",
+    "@hapi/inert": "^6.0.3",
+    "@hapi/vision": "^6.0.1",
+    "blipp": "^4.0.2",
     "dotenv": "^8.2.0",
+    "hapi-swagger": "^14.1.0",
     "moment-timezone": "^0.5.33",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.2",
-    "sequelize-auto": "^0.8.2"
+    "sequelize-auto": "^0.8.2",
+    "sequelize-cli": "^6.2.0"
   }
 }
