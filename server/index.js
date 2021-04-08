@@ -1,29 +1,54 @@
 'use strict';
 
-const Hapi = require('@hapi/hapi');
+const Hapi = require('hapi');
+const Joi = require('joi');
 
-const init = async()=>{
-    const server = Hapi.server({
-        port: 3002,
-        host: 'localhost'
-    });
-
-    server.route({
-        method: 'GET',
-        path: '/new_order',
-        handler: (request, h) => {
-
-            return 'Hello World!';
-        }
-    });
-
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err)=>{
-    console.log(err);
-    process.exit(1);
+const server = new Hapi.Server();
+server.connection({
+  port: 3000,
+  host: 'localhost'
+});
+server.register({ 
+  register: require('hapi-plugin-pg'),
+   options: { 
+    connectionString: 'postgres: //postgres:colombia2021@localhost:5432/geek-cosmetics'
+       
+  }
+}, (err) => { 
+  if (err) { 
+    throw err; 
+  }
 });
 
-init();
+server.route({ 
+  method: 'GET',
+   path: '/products',
+   handler: function (request, reply) { 
+    const products = request.params.name; 
+    request.pg.client.query("SELECT product_description FROM products", [products], (err, result) => { 
+      if (err) { 
+        return reply(err).code(500); 
+      } 
+      if (!result ||  !result.rows || result.rows.length === 0) { 
+        return reply({
+          body: '‘Not Found’'
+        }).code(404); 
+      } 
+      return reply(result.rows); 
+    }); 
+  },
+   config: { 
+    validate: { 
+      params: Joi.object({ 
+        name: Joi.string().alphanum().required() 
+      }) 
+    } 
+  }
+});
+
+server.start((err) => { 
+  if (err) { 
+    throw err; 
+  } 
+  console.log(`Server running at: ${server.info.uri}`);
+});
