@@ -11,7 +11,7 @@ server.connection({
 server.register({ 
   register: require('hapi-plugin-pg'),
    options: { 
-    connectionString: 'postgres: //postgres:colombia2021@localhost:5432/geek-cosmetics'
+    connectionString: process.env.DATABASE_URI
        
   }
 }, (err) => { 
