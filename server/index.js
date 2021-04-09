@@ -1,29 +1,26 @@
-'use strict';
+const express = require('express');
+const path = require('path');
+const app = express();
+const morgan = require('morgan');
+const cors = require("cors");
 
-const Hapi = require('@hapi/hapi');
+app.use(cors());
 
-const init = async()=>{
-    const server = Hapi.server({
-        port: 3002,
-        host: 'localhost'
-    });
 
-    server.route({
-        method: 'GET',
-        path: '/new_order',
-        handler: (request, h) => {
+const routes = require('./routes/routes');
+const { json } = require('express');
 
-            return 'Hello World!';
-        }
-    });
 
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
-};
+require('dotenv').config();
 
-process.on('unhandledRejection', (err)=>{
-    console.log(err);
-    process.exit(1);
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+
+app.use('/', routes);
+
+app.set('port', process.env.PORT || 8083)
+app.listen(app.get('port'), ()=>{
+    console.log(`Server running on port ${app.get('port')}!!`)
 });
-
-init();
